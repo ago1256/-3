@@ -2,14 +2,15 @@
 #define STRUCT_RECORD_H
 
 typedef struct {
-    char title[256];
-    char author_last_name[256];
-    char author_initials[10];
-    char journal_title[256];
+    char title[100];
+    char author_last_name[50];
+    char author_initials[20];
+    char journal_title[50];
     int publication_year;
     int journal_volume;
-    int is_in_rinc; // 0 - NO, 1 - YES
+    int is_in_rinc; 
     int page_count;
     int citation_count;
 } PublicationRecord;
+
 #endif 
