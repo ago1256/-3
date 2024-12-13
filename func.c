@@ -139,7 +139,7 @@ void remove_at_index(PublicationStack* stack, int index) {
     free(to_remove); 
     stack->size--;
 }
-
+//замена 2х элементов
 void swap_elements(PublicationStack* stack, int index1, int index2) {
     PublicationRecord record1 = get_element_at(stack, index1);
     PublicationRecord record2 = get_element_at(stack, index2);
@@ -205,7 +205,7 @@ void print_stack(PublicationStack* stack) {
    }
 
 //инвертировать стек
-/*void reverse_stack(PublicationStack *stack) {
+void reverse_stack(PublicationStack *stack) {
     if (stack->top == NULL) return; 
 
     PublicationStack temp;
@@ -224,14 +224,8 @@ void print_stack(PublicationStack* stack) {
         remove_from_beginning(&temp);
         insert_at_beginning(stack, pub1);
     }
-   if (get_size(stack) > 0){
-    PublicationRecord pub = get_element_at(stack,0);
-    reverse_stack(stack);
-    insert_at_end(stack,pub);
-   }
-
-    //free(temp.top);
-}*/
+    free(temp.top);
+}
 
 
 void print_help() {
@@ -371,9 +365,13 @@ void sort_data(const char *input_file, const char *output_file, int ascending) {
         insert_at_beginning(&A, pub);
     }
     fclose(file);
-    shaker_sort_reverse(&A);
-    //if (ascending == 0) {
-    //}
+    
+    if (ascending == 1) {
+        shaker_sort(&A);
+    }
+    else{
+        shaker_sort_reverse(&A);
+    }
 
     file = output_file ? fopen(output_file, "w") : stdout;
     if (!file) {
