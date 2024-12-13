@@ -185,7 +185,7 @@ void clear_stack(PublicationStack* stack) {
 }
 
 
-
+//вывести стек
 void print_stack(PublicationStack* stack) {
        Node* current = stack->top;
        while (current) {
@@ -204,14 +204,40 @@ void print_stack(PublicationStack* stack) {
        }
    }
 
+//инвертировать стек
+/*void reverse_stack(PublicationStack *stack) {
+    if (stack->top == NULL) return; 
 
+    PublicationStack temp;
+    init_stack(&temp);
+
+    while (get_size(stack) > 0) {
+        PublicationRecord pub;
+        pub = get_element_at(stack,0);
+        remove_from_beginning(stack);
+        insert_at_beginning(&temp, pub);
+    }
+
+    while (get_size(&temp) > 0) {
+        PublicationRecord pub1;
+        pub1 = get_element_at(&temp,0);
+        remove_from_beginning(&temp);
+        insert_at_beginning(stack, pub1);
+    }
+   if (get_size(stack) > 0){
+    PublicationRecord pub = get_element_at(stack,0);
+    reverse_stack(stack);
+    insert_at_end(stack,pub);
+   }
+
+    //free(temp.top);
+}*/
 
 
 void print_help() {
-    printf("Usage:\n");
     printf("  --generate N | -g N\n");
-    printf("  --sort | -s [--in=data.csv] [--out=output.csv] [--type=asc|desc]\n");
-    printf("  --print | -P [--in=data.csv] [--out=output.txt]\n");
+    printf("  --sort | -s --in=data.csv --out=output.csv --type=asc|desc\n");
+    printf("  --print | -P --in=data.csv --out=output.txt\n");
 }
 
 void shaker_sort(PublicationStack* stack) {
@@ -244,6 +270,35 @@ void shaker_sort(PublicationStack* stack) {
     } while (swapped);
 }
 
+void shaker_sort_reverse(PublicationStack* stack) {
+    int swapped;
+    PublicationRecord last, current;
+    do {
+        swapped = 0;
+        last = get_element_at(stack, 0);
+        for (int i = 0; i < get_size(stack) - 1; i++) {
+            current = get_element_at(stack, i + 1);
+              if (current.publication_year>last.publication_year) {
+                swap_elements(stack, i, i + 1);
+                swapped = 1;
+            } else {
+                last = current;
+            }
+        }
+        if (!swapped) break;
+        last = get_element_at(stack, get_size(stack) - 1);
+        for (int i = get_size(stack) - 2; i >= 0; i--) {
+            current = get_element_at(stack, i);
+             if (current.publication_year<last.publication_year) {
+                swap_elements(stack, i, i + 1);
+                swapped = 1;
+            } else {
+                last = current; 
+            }
+        }
+
+    } while (swapped);
+}
 void generate_random_string(char *str, int length) {
     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (int i = 0; i < length; i++) {
@@ -316,7 +371,9 @@ void sort_data(const char *input_file, const char *output_file, int ascending) {
         insert_at_beginning(&A, pub);
     }
     fclose(file);
-    shaker_sort(&A);
+    shaker_sort_reverse(&A);
+    //if (ascending == 0) {
+    //}
 
     file = output_file ? fopen(output_file, "w") : stdout;
     if (!file) {
