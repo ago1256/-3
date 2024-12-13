@@ -1,6 +1,6 @@
 #ifndef STRUCT_CONTAINER_H
 #define STRUCT_CONTAINER_H
-#include "publication.record.h"
+#include "publication_record.h"
 
 typedef struct Node {
     PublicationRecord record;
