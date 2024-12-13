@@ -16,7 +16,7 @@ int get_size(PublicationStack* stack) {
     return stack->size;
 }
 
-// Получение произвольного элемента по индексу
+// Получение элемента по индексу
 PublicationRecord get_element_at(PublicationStack* stack, int index) {
     Node* current = stack->top;
     for (int i = 0; i < index; i++) {
@@ -139,7 +139,7 @@ void remove_at_index(PublicationStack* stack, int index) {
     free(to_remove); 
     stack->size--;
 }
-//замена 2х элементов
+// Замена двух элементов друг на друга
 void swap_elements(PublicationStack* stack, int index1, int index2) {
     PublicationRecord record1 = get_element_at(stack, index1);
     PublicationRecord record2 = get_element_at(stack, index2);
@@ -152,7 +152,7 @@ void swap_elements(PublicationStack* stack, int index1, int index2) {
     insert_at_index(stack, record2, index1); 
 }
 
-// Преобразование массива в структуру-контейнер
+// Преобразование массива в стек
 PublicationStack array_to_stack(PublicationRecord* array, int size) {
     PublicationStack stack;
     init_stack(&stack);
@@ -164,7 +164,7 @@ PublicationStack array_to_stack(PublicationRecord* array, int size) {
     return stack;
 }
 
-// Преобразование структуры-контейнера в массив
+// Преобразование стека в массив
 PublicationRecord* stack_to_array(PublicationStack* stack) {
     PublicationRecord* array = (PublicationRecord*)malloc(stack->size * sizeof(PublicationRecord));
     
@@ -185,7 +185,7 @@ void clear_stack(PublicationStack* stack) {
 }
 
 
-//вывести стек
+// Вывод стека
 void print_stack(PublicationStack* stack) {
        Node* current = stack->top;
        while (current) {
@@ -204,29 +204,6 @@ void print_stack(PublicationStack* stack) {
        }
    }
 
-//инвертировать стек
-void reverse_stack(PublicationStack *stack) {
-    if (stack->top == NULL) return; 
-
-    PublicationStack temp;
-    init_stack(&temp);
-
-    while (get_size(stack) > 0) {
-        PublicationRecord pub;
-        pub = get_element_at(stack,0);
-        remove_from_beginning(stack);
-        insert_at_beginning(&temp, pub);
-    }
-
-    while (get_size(&temp) > 0) {
-        PublicationRecord pub1;
-        pub1 = get_element_at(&temp,0);
-        remove_from_beginning(&temp);
-        insert_at_beginning(stack, pub1);
-    }
-    free(temp.top);
-}
-
 
 void print_help() {
     printf("  --generate N | -g N\n");
@@ -234,6 +211,7 @@ void print_help() {
     printf("  --print | -P --in=data.csv --out=output.txt\n");
 }
 
+// Шейкерная сортировка по возрастанию
 void shaker_sort(PublicationStack* stack) {
     int swapped;
     PublicationRecord last, current;
@@ -264,6 +242,7 @@ void shaker_sort(PublicationStack* stack) {
     } while (swapped);
 }
 
+// Шейкерная сортировка по убыванию
 void shaker_sort_reverse(PublicationStack* stack) {
     int swapped;
     PublicationRecord last, current;
@@ -293,6 +272,7 @@ void shaker_sort_reverse(PublicationStack* stack) {
 
     } while (swapped);
 }
+// Генерация строки
 void generate_random_string(char *str, int length) {
     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (int i = 0; i < length; i++) {
@@ -300,6 +280,8 @@ void generate_random_string(char *str, int length) {
     }
     str[length] = '0';
 }
+
+// Генерация стека
 void generate_data(int n, const char *output_file) {
     FILE *file = output_file ? fopen(output_file, "w") : stdout;
     if (!file) {
@@ -333,7 +315,7 @@ void generate_data(int n, const char *output_file) {
     if (output_file) fclose(file);
 }
 
-// Функция для сортировки данных по году выпуска
+// Сортировка данных по году выпуска
 void sort_data(const char *input_file, const char *output_file, int ascending) {
     FILE *file = input_file ? fopen(input_file, "r") : stdin;
 
@@ -398,6 +380,7 @@ void sort_data(const char *input_file, const char *output_file, int ascending) {
     fclose(file);
 }
 
+// Вывод данных
 void print_data(const char *input_file, const char *output_file) {
     FILE *file = input_file ? fopen(input_file, "r") : stdin;
     if (!file) {
