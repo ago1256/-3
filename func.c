@@ -185,25 +185,6 @@ void clear_stack(PublicationStack* stack) {
 }
 
 
-// Вывод стека
-void print_stack(PublicationStack* stack) {
-       Node* current = stack->top;
-       while (current) {
-           PublicationRecord rec = current->record;
-           printf("%s, %s, %s, %s, %d, %d, %d, %d, %d\n",
-                  rec.title,
-                  rec.author_last_name,
-                  rec.author_initials,
-                  rec.journal_title,
-                  rec.publication_year,
-                  rec.journal_volume,
-                  rec.is_in_rinc,
-                  rec.page_count,
-                  rec.citation_count);
-           current = current->next;
-       }
-   }
-
 
 void print_help() {
     printf("  --generate N | -g N\n");
